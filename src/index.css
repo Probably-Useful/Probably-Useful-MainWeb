@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink text-iris-50 font-sans antialiased;
+  background-image: radial-gradient(
+      55rem 40rem at 75% -10%,
+      rgba(109, 94, 252, 0.18),
+      transparent 60%
+    ),
+    radial-gradient(45rem 35rem at 5% 10%, rgba(55, 230, 201, 0.1), transparent 55%);
+  background-attachment: fixed;
+}
+
+/* Thin custom scrollbar to keep the premium feel */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(109, 94, 252, 0.35);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(109, 94, 252, 0.6);
+  background-clip: content-box;
+}
+
+::selection {
+  background: rgba(55, 230, 201, 0.3);
+}
+
+@layer components {
+  .container-px {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .glass {
+    @apply rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-iris-400/70;
+  }
+  .btn-primary {
+    @apply btn bg-iris-500 text-white shadow-glow hover:bg-iris-400 hover:-translate-y-0.5 active:translate-y-0;
+  }
+  .btn-ghost {
+    @apply btn border border-white/15 bg-white/[0.02] text-iris-100 hover:border-iris-400/60 hover:bg-white/[0.06];
+  }
+  .btn-spark {
+    @apply btn bg-spark text-ink shadow-spark hover:bg-spark-soft hover:-translate-y-0.5;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-medium text-iris-100;
+  }
+
+  .section-eyebrow {
+    @apply mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-spark;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-iris-300 via-white to-spark bg-clip-text text-transparent;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-white/10 bg-ink-soft/80 px-4 py-3 text-sm text-iris-50 placeholder:text-iris-300/40 transition focus:border-iris-400/70 focus:outline-none focus:ring-2 focus:ring-iris-500/30;
+  }
+}

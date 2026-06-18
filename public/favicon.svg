@@ -1,0 +1,17 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="puTile" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6d5efc"/>
+      <stop offset="1" stop-color="#4a36c4"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#puTile)"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="15.5" stroke="#ffffff" stroke-opacity="0.18"/>
+  <!-- P monogram, centered -->
+  <path d="M23 16 V41" stroke="#ffffff" stroke-width="6.5" stroke-linecap="round"/>
+  <path d="M23 17 H33 A8.5 8.5 0 0 1 33 34 H23" fill="none" stroke="#ffffff" stroke-width="6.5"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- tilde, matched width + tucked under as a baseline (~ = "probably") -->
+  <path d="M22 47 q5 -5 10 0 t 10 0" fill="none" stroke="#37e6c9" stroke-width="3.4"
+        stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0b0b14" />
+
+    <title>Probably Useful | Turning personal fixes into public utilities</title>
+    <meta
+      name="description"
+      content="Probably Useful turns personal fixes into public utilities: small, free tools built to solve real problems. Suggest an idea, vote on features, and shape what gets built next."
+    />
+    <meta
+      name="keywords"
+      content="indie tools, free software, productivity apps, side projects, feature requests, clipboard manager, password manager"
+    />
+    <meta name="author" content="Probably Useful" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://probablyuseful.space/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Probably Useful" />
+    <meta property="og:title" content="Probably Useful — turning personal fixes into public utilities" />
+    <meta
+      property="og:description"
+      content="Small, free tools built to solve real problems. Suggest an idea, vote on features, and shape what gets built next."
+    />
+    <meta property="og:url" content="https://probablyuseful.space/" />
+    <meta property="og:image" content="https://probablyuseful.space/og-image.svg" />
+    <meta property="og:image:alt" content="Probably Useful" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Probably Useful — turning personal fixes into public utilities" />
+    <meta
+      name="twitter:description"
+      content="Small, free tools built to solve real problems. Suggest an idea, vote, and shape what gets built next."
+    />
+    <meta name="twitter:image" content="https://probablyuseful.space/og-image.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Probably Useful",
+        "url": "https://probablyuseful.space/",
+        "description": "Small, free tools built to solve real problems. Turning personal fixes into public utilities.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Probably Useful",
+          "url": "https://probablyuseful.space/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Netlify Forms detection (static form scanned at deploy time).
+         The real form lives in the React footer and posts to this name. -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+      <input name="bot-field" />
+    </form>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
