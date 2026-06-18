@@ -23,7 +23,7 @@ export const apps = [
     description:
       'A desktop clipboard manager that keeps a searchable history of everything you copy, text and snippets alike, so you never lose that thing you copied five minutes ago.',
     status: 'live',
-    url: '',
+    url: 'https://github.com/Austin2905/Carbon/releases/download/V0.0.0/Carbon-Setup-1.0.0.exe',
     tags: ['Desktop', 'Productivity', 'Electron'],
     accent: 'spark',
     icon: '⌘'
@@ -35,7 +35,7 @@ export const apps = [
     description:
       'A zero-knowledge password manager that encrypts everything in your browser before it ever leaves your device. Generate strong passwords, check for breaches, stay locked down.',
     status: 'live',
-    url: '',
+    url: 'knox.probablyuseful.space',
     tags: ['Security', 'Web', 'Privacy'],
     accent: 'iris',
     icon: '🔐'
