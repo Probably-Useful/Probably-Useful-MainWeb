@@ -35,7 +35,7 @@ export const apps = [
     description:
       'A zero-knowledge password manager that encrypts everything in your browser before it ever leaves your device. Generate strong passwords, check for breaches, stay locked down.',
     status: 'live',
-    url: 'knox.probablyuseful.space',
+    url: 'https://knox.probablyuseful.space/',
     tags: ['Security', 'Web', 'Privacy'],
     accent: 'iris',
     icon: '🔐'
@@ -57,7 +57,7 @@ export const apps = [
     name: 'Rune',
     tagline: 'Coming soon.',
     description:
-      'A small bit of magic for a problem I keep running into. Something like a secure, cross-device notepad. I wanted a way to access my notes from anywhere without compromising on privacy. Details are still taking shape, so feedback is welcome before it ships.',
+      'A secure, cross-device notepad. Access to notes from anywhere without compromising on privacy. Details are still taking shape, so feedback is welcome before it ships.',
     status: 'soon',
     url: '',
     tags: ['In the works'],
