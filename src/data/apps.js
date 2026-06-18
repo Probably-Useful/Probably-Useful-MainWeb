@@ -45,9 +45,9 @@ export const apps = [
     name: 'Relay',
     tagline: 'Coming soon.',
     description:
-      'Something to move your stuff from here to there without the friction. Still in the workshop, so drop a note on the billboard if you want a say in what it becomes.',
-    status: 'soon',
-    url: '',
+      'Quick-capture todos and notes from anywhere, with a premium dashboard, a Notepad code-aware notes editor, and shift reminders. Lives in your system tray and stores everything locally in a folder you choose.',
+    status: 'live',
+    url: 'https://github.com/Austin2905/Relay/releases/download/v0.0.0/Relay-Setup-1.0.0.exe',
     tags: ['In the works'],
     accent: 'amber',
     icon: '📡'
@@ -57,7 +57,7 @@ export const apps = [
     name: 'Rune',
     tagline: 'Coming soon.',
     description:
-      'A small bit of magic for a problem I keep running into. Details are still taking shape, so feedback is welcome before it ships.',
+      'A small bit of magic for a problem I keep running into. Something like a secure, cross-device notepad. I wanted a way to access my notes from anywhere without compromising on privacy. Details are still taking shape, so feedback is welcome before it ships.',
     status: 'soon',
     url: '',
     tags: ['In the works'],
