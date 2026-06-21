@@ -43,7 +43,7 @@ export const apps = [
   {
     id: 'relay',
     name: 'Relay',
-    tagline: 'Coming soon.',
+    tagline: 'Your personalized todo and Notes',
     description:
       'Quick-capture todos and notes from anywhere, with a premium dashboard, a Notepad code-aware notes editor, and shift reminders. Lives in your system tray and stores everything locally in a folder you choose.',
     status: 'live',
@@ -55,10 +55,10 @@ export const apps = [
   {
     id: 'rune',
     name: 'Rune',
-    tagline: 'Coming soon.',
+    tagline: 'Personalized zero-knowledge encrypted workspaces.',
     description:
       'A secure, cross-device notepad. Access to notes from anywhere without compromising on privacy. Details are still taking shape, so feedback is welcome before it ships.',
-    status: 'soon',
+    status: 'live',
     url: 'https://rune.probablyuseful.space',
     tags: ['In the works'],
     accent: 'rose',
