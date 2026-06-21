@@ -7,7 +7,11 @@ import {
   setBuilderResponse,
   deleteIdea,
   setFeedbackReply,
-  deleteFeedback
+  deleteFeedback,
+  listSubscribers,
+  deleteSubscriber,
+  listUpdates,
+  createUpdate
 } from '../lib/api.js'
 import { builderStatuses } from '../data/billboard.js'
 import { feedbackTypes } from '../data/feedback.js'
@@ -15,6 +19,7 @@ import { apps } from '../data/apps.js'
 import { analyzeIdea } from '../lib/spamFilter.js'
 import { timeAgo } from '../lib/format.js'
 import { LogoMark } from './Logo.jsx'
+import { sendUpdateEmail, resendConfigured } from '../lib/email.js'
 
 const appName = (id) => apps.find((a) => a.id === id)?.name || id
 
@@ -144,16 +149,20 @@ function SignIn({ onSignedIn }) {
 function Moderation() {
   const [ideas, setIdeas] = useState([])
   const [feedback, setFeedback] = useState([])
+  const [subscribers, setSubscribers] = useState([])
+  const [updates, setUpdates] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [tab, setTab] = useState('ideas')
 
   function reload() {
     setLoading(true)
-    Promise.all([listIdeas(true), listFeedback(true)])
-      .then(([i, f]) => {
+    Promise.all([listIdeas(true), listFeedback(true), listSubscribers(), listUpdates()])
+      .then(([i, f, s, u]) => {
         setIdeas(i)
         setFeedback(f)
+        setSubscribers(s)
+        setUpdates(u)
         setError(null)
       })
       .catch((e) => setError(e.message))
@@ -202,7 +211,8 @@ function Moderation() {
         <div className="flex gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-1">
           {[
             ['ideas', `Ideas (${ideas.length})`],
-            ['feedback', `Feedback (${feedback.length})`]
+            ['feedback', `Feedback (${feedback.length})`],
+            ['updates', `Updates (${subscribers.length} subs)`]
           ].map(([key, label]) => (
             <button
               key={key}
@@ -236,7 +246,7 @@ function Moderation() {
             />
           ))}
         </div>
-      ) : (
+      ) : tab === 'feedback' ? (
         <div className="space-y-3">
           {feedback.map((f) => (
             <FeedbackRow
@@ -247,6 +257,16 @@ function Moderation() {
             />
           ))}
         </div>
+      ) : (
+        <UpdatesPanel
+          subscribers={subscribers}
+          updates={updates}
+          onDeleteSubscriber={async (id) => {
+            await deleteSubscriber(id)
+            setSubscribers((prev) => prev.filter((s) => s.id !== id))
+          }}
+          onSent={(u) => setUpdates((prev) => [u, ...prev])}
+        />
       )}
     </div>
   )
@@ -367,6 +387,120 @@ function IdeaRow({ idea, onSetStatus, onSaveNote, onDelete }) {
           {savingNote ? '…' : 'Save'}
         </button>
       </div>
+    </div>
+  )
+}
+
+function UpdatesPanel({ subscribers, updates, onDeleteSubscriber, onSent }) {
+  const [subject, setSubject] = useState('')
+  const [body, setBody] = useState('')
+  const [sending, setSending] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [sendError, setSendError] = useState(null)
+
+  async function send(e) {
+    e.preventDefault()
+    if (!subject.trim() || !body.trim() || subscribers.length === 0) return
+    setSending(true)
+    setSendError(null)
+    try {
+      // Send actual emails via Resend
+      if (resendConfigured) {
+        await sendUpdateEmail({ subject: subject.trim(), body: body.trim(), subscribers })
+      }
+      // Log the update to the database
+      const u = await createUpdate({ subject: subject.trim(), body: body.trim(), sentTo: subscribers.length })
+      onSent(u)
+      setSent(true)
+      setSubject('')
+      setBody('')
+      setTimeout(() => setSent(false), 3000)
+    } catch (err) {
+      setSendError(err.message || 'Failed to send')
+    } finally {
+      setSending(false)
+    }
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Compose */}
+      <div className="glass p-5">
+        <h3 className="font-display text-base font-bold text-white">Send an Update</h3>
+        <p className="mt-1 text-xs text-iris-100/60">
+          {resendConfigured
+            ? `Emails will be sent from admin@probablyuseful.space to ${subscribers.length} subscriber${subscribers.length !== 1 ? 's' : ''}.`
+            : 'VITE_RESEND_API_KEY not set — update will be logged but no emails sent.'}
+        </p>
+        <form onSubmit={send} className="mt-3 space-y-3">
+          <input
+            value={subject}
+            onChange={(e) => setSubject(e.target.value.slice(0, 150))}
+            placeholder="Subject"
+            className="field"
+            required
+          />
+          <textarea
+            value={body}
+            onChange={(e) => setBody(e.target.value.slice(0, 5000))}
+            placeholder="Write your update here…"
+            rows={5}
+            className="field resize-none"
+            required
+          />
+          {sent && <p className="text-sm text-spark">Update sent successfully!</p>}
+          {sendError && <p className="text-sm text-rose-300">{sendError}</p>}
+          <button
+            type="submit"
+            disabled={sending || !subject.trim() || !body.trim() || subscribers.length === 0}
+            className="btn-primary disabled:opacity-40"
+          >
+            {sending ? 'Sending…' : `Send update to ${subscribers.length} subscriber${subscribers.length !== 1 ? 's' : ''}`}
+          </button>
+        </form>
+      </div>
+
+      {/* Subscribers list */}
+      <div className="glass p-5">
+        <h3 className="font-display text-base font-bold text-white">
+          Subscribers ({subscribers.length})
+        </h3>
+        {subscribers.length === 0 ? (
+          <p className="mt-2 text-sm text-iris-100/60">No subscribers yet.</p>
+        ) : (
+          <ul className="mt-3 max-h-60 space-y-1 overflow-y-auto">
+            {subscribers.map((s) => (
+              <li key={s.id} className="flex items-center justify-between rounded-lg border border-white/5 px-3 py-2">
+                <span className="font-mono text-sm text-iris-100">{s.email}</span>
+                <button
+                  onClick={() => onDeleteSubscriber(s.id)}
+                  className="btn-ghost text-xs text-rose-200"
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* Past updates */}
+      {updates.length > 0 && (
+        <div className="glass p-5">
+          <h3 className="font-display text-base font-bold text-white">Past Updates</h3>
+          <div className="mt-3 space-y-3">
+            {updates.map((u) => (
+              <div key={u.id} className="rounded-xl border border-white/5 p-3">
+                <div className="flex items-center justify-between text-xs text-iris-300/50">
+                  <span className="font-semibold text-iris-100">{u.subject}</span>
+                  <span>Sent to {u.sent_to} · {timeAgo(u.created_at)}</span>
+                </div>
+                <p className="mt-1 whitespace-pre-wrap text-sm text-iris-100/70">{u.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

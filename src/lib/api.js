@@ -124,3 +124,57 @@ export async function setFeedbackReply(id, note) {
 export async function deleteFeedback(id) {
   await gql(`mutation ($id: uuid!) { delete_feedback_by_pk(id: $id) { id } }`, { id }, true)
 }
+
+// ── Subscribers (public insert) ───────────────────────────────
+export async function subscribe(email) {
+  try {
+    const data = await gql(
+      `mutation ($email: String!) {
+         insert_subscribers_one(object: { email: $email }) { id email created_at }
+       }`,
+      { email }
+    )
+    return data.insert_subscribers_one
+  } catch (err) {
+    // Unique constraint violation means already subscribed — treat as success
+    if (err.message && err.message.includes('Uniqueness violation')) return { email }
+    throw err
+  }
+}
+
+// ── Subscribers (owner only) ──────────────────────────────────
+export async function listSubscribers() {
+  const data = await gql(
+    `query { subscribers(order_by: { created_at: desc }) { id email created_at } }`,
+    undefined,
+    true
+  )
+  return data.subscribers
+}
+
+export async function deleteSubscriber(id) {
+  await gql(`mutation ($id: uuid!) { delete_subscribers_by_pk(id: $id) { id } }`, { id }, true)
+}
+
+// ── Updates / Broadcasts (owner only) ─────────────────────────
+export async function listUpdates() {
+  const data = await gql(
+    `query { updates(order_by: { created_at: desc }) { id subject body sent_to created_at } }`,
+    undefined,
+    true
+  )
+  return data.updates
+}
+
+export async function createUpdate({ subject, body, sentTo }) {
+  const data = await gql(
+    `mutation ($subject: String!, $body: String!, $sent_to: Int!) {
+       insert_updates_one(object: { subject: $subject, body: $body, sent_to: $sent_to }) {
+         id subject body sent_to created_at
+       }
+     }`,
+    { subject, body, sent_to: sentTo },
+    true
+  )
+  return data.insert_updates_one
+}

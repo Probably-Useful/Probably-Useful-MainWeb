@@ -32,3 +32,21 @@ create table if not exists public.feedback (
 );
 
 create index if not exists feedback_app_idx on public.feedback (app_id, created_at desc);
+
+-- Newsletter subscribers -------------------------------------------------
+create table if not exists public.subscribers (
+  id          uuid primary key default gen_random_uuid(),
+  email       text not null unique,
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists subscribers_created_at_idx on public.subscribers (created_at desc);
+
+-- Sent updates (log of broadcasts) --------------------------------------
+create table if not exists public.updates (
+  id          uuid primary key default gen_random_uuid(),
+  subject     text not null,
+  body        text not null,
+  sent_to     integer not null default 0,   -- number of subscribers at send time
+  created_at  timestamptz not null default now()
+);

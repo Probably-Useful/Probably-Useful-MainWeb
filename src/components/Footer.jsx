@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { LogoMark } from './Logo.jsx'
+import { subscribe as apiSubscribe } from '../lib/api.js'
+import { nhostConfigured } from '../lib/nhost.js'
 
 function encode(data) {
   return Object.keys(data)
@@ -87,6 +89,60 @@ function ContactForm() {
   )
 }
 
+function SubscribeForm() {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState('idle') // idle | sending | done | error
+
+  async function submit(e) {
+    e.preventDefault()
+    if (!email.trim()) return
+    if (!nhostConfigured) {
+      setStatus('error')
+      return
+    }
+    setStatus('sending')
+    try {
+      await apiSubscribe(email.trim().toLowerCase())
+      setStatus('done')
+      setEmail('')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  if (status === 'done') {
+    return (
+      <div className="mt-3 rounded-xl border border-spark/30 bg-spark/10 p-4 text-sm text-spark">
+        You&rsquo;re in! You&rsquo;ll hear from me when something ships.
+      </div>
+    )
+  }
+
+  return (
+    <form onSubmit={submit} className="mt-3">
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+        placeholder="you@email.com"
+        className="field"
+        autoComplete="email"
+      />
+      {status === 'error' && (
+        <p className="mt-2 text-xs text-rose-300">Couldn&rsquo;t subscribe just now. Try again in a moment.</p>
+      )}
+      <button
+        type="submit"
+        disabled={!email.trim() || status === 'sending'}
+        className="btn-primary mt-2 disabled:opacity-40"
+      >
+        {status === 'sending' ? 'Subscribing…' : 'Subscribe'}
+      </button>
+    </form>
+  )
+}
+
 export default function Footer() {
   return (
     <footer className="border-t border-white/10 py-12">
@@ -115,6 +171,14 @@ export default function Footer() {
             <a href="#dashboard" className="text-iris-100/70 hover:text-white">Dashboard</a>
             <a href="#support" className="text-iris-100/70 hover:text-white">Support</a>
           </nav>
+
+          <div className="w-full max-w-xs">
+            <h3 className="font-display text-lg font-bold text-white">Subscribe for Updates</h3>
+            <p className="mt-1 text-sm leading-relaxed text-iris-100/60">
+              Get notified when new tools drop or big changes ship. No spam, ever.
+            </p>
+            <SubscribeForm />
+          </div>
         </div>
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/5 pt-6 text-xs text-iris-300/50 sm:flex-row">
