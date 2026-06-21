@@ -23,7 +23,7 @@ export const apps = [
     description:
       'A desktop clipboard manager that keeps a searchable history of everything you copy, text and snippets alike, so you never lose that thing you copied five minutes ago.',
     status: 'live',
-    url: 'https://github.com/Austin2905/Carbon/releases/download/V0.0.0/Carbon-Setup-1.0.0.exe',
+    url: 'https://github.com/Probably-Useful/Carbon/releases/download/V0.0.0/Carbon-Setup-1.0.0.exe',
     tags: ['Desktop', 'Productivity', 'Electron'],
     accent: 'spark',
     icon: '⌘'
@@ -47,7 +47,7 @@ export const apps = [
     description:
       'Quick-capture todos and notes from anywhere, with a premium dashboard, a Notepad code-aware notes editor, and shift reminders. Lives in your system tray and stores everything locally in a folder you choose.',
     status: 'live',
-    url: 'https://github.com/Austin2905/Relay/releases/download/v0.0.0/Relay-Setup-1.0.0.exe',
+    url: 'https://github.com/Probably-Useful/Relay/releases/download/v0.0.0/Relay-Setup-1.0.0.exe',
     tags: ['In the works'],
     accent: 'amber',
     icon: '📡'
@@ -59,7 +59,7 @@ export const apps = [
     description:
       'A secure, cross-device notepad. Access to notes from anywhere without compromising on privacy. Details are still taking shape, so feedback is welcome before it ships.',
     status: 'soon',
-    url: '',
+    url: 'https://rune.probablyuseful.space',
     tags: ['In the works'],
     accent: 'rose',
     icon: '🪄'
