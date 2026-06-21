@@ -14,7 +14,7 @@ Edit `.env` (it's git-ignored) and fill in:
 ```
 VITE_NHOST_SUBDOMAIN=your-subdomain
 VITE_NHOST_REGION=your-region
-VITE_OWNER_EMAIL=demetrius.mmiii@gmail.com
+VITE_OWNER_EMAIL=your-owner-email@example.com
 ```
 
 Restart the dev server after editing (`npm run dev`).
@@ -40,7 +40,7 @@ by every signed-in user, so it can't be the moderator role. Do this:
 
 1. **Make `owner` a valid role:** Nhost dashboard → Settings → Roles and
    Permissions → add `owner` to the Allowed Roles list and save.
-2. **Grant it to you:** Auth → Users → open `demetrius.mmiii@gmail.com` → add
+2. **Grant it to you:** Auth → Users → open `your-owner-email@example.com` → add
    `owner` to its Allowed Roles (keep default role as `user`). Sign out/in after.
 3. If you don't have the account yet, create it (enable email sign-up or add the
    user in Auth → Users), then do step 2.
