@@ -47,7 +47,7 @@ export const apps = [
     description:
       'Quick-capture todos and notes from anywhere, with a premium dashboard, a Notepad code-aware notes editor, and shift reminders. Lives in your system tray and stores everything locally in a folder you choose.',
     status: 'live',
-    url: 'https://github.com/Probably-Useful/Relay/releases/download/v0.0.0/Relay-Setup-1.0.0.exe',
+    url: 'https://github.com/Probably-Useful/Relay/releases/download/v1.0.0/Relay-Setup-1.0.0.exe',
     tags: ['In the works'],
     accent: 'amber',
     icon: '📡'
